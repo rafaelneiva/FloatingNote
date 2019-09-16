@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ImageButton
+        android:id="@+id/btFeedback"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="#ff0"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_media_play"
+        tools:ignore="ContentDescription" />
+
+</layout>
