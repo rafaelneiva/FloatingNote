@@ -88,14 +88,14 @@ class FloatingWindow(val mContext: Context) : View.OnTouchListener, View.OnClick
                 return true
             }
             MotionEvent.ACTION_UP -> {
-                //As we implemented on touch listener with ACTION_MOVE,
-                //we have to check if the previous action was ACTION_DOWN
-                //to identify if the user clicked the view or not.
-                //                if (lastAction == MotionEvent.ACTION_DOWN) {
-                //                    mAnchor.bind.btFeedback.performClick();
-                //                }
+                // As we implemented on touch listener with ACTION_MOVE,
+                // we have to check if the previous action was ACTION_DOWN
+                // to identify if the user clicked the view or not.
+                // if (lastAction == MotionEvent.ACTION_DOWN) {
+                //     mAnchor.bind.btFeedback.performClick();
+                // }
                 if (!arrastadinha || lastAction == MotionEvent.ACTION_DOWN) {
-                    //                    mAnchor.bind.btFeedback.performClick();
+                    mAnchor.performClick();
                 }
                 lastAction = event.action
 
@@ -213,8 +213,8 @@ class FloatingWindow(val mContext: Context) : View.OnTouchListener, View.OnClick
     }
 
     fun disableTouch() {
-//        mAnchor.setClickListener(null)
-//        mAnchor.setTouchListener(null)
+        mAnchor.setClickListener(null)
+        mAnchor.setTouchListener(null)
     }
 
     fun enableTouch() {
@@ -224,6 +224,7 @@ class FloatingWindow(val mContext: Context) : View.OnTouchListener, View.OnClick
 
     internal inner class MessageReceiver : ResultReceiver(null) {
 
+        // todo
         override fun onReceiveResult(resultCode: Int, resultData: Bundle) {
             if (resultCode != RESULT_OK) {
                 return

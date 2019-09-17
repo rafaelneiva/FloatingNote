@@ -41,4 +41,9 @@ class FloatingAnchor : FrameLayout {
         bind.btNewNote.setOnTouchListener(touchListener);
     }
 
+    override fun performClick(): Boolean {
+        bind.btNewNote.performClick()
+        return super.performClick()
+    }
+
 }
