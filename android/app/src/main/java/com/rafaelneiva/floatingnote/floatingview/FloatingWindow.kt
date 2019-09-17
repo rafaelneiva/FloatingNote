@@ -23,7 +23,7 @@ import android.view.animation.DecelerateInterpolator
  * Created by rafaelneiva on 08/03/18.
  */
 
-class FloatingWindow(private val mContext: Context) : View.OnTouchListener, View.OnClickListener {
+class FloatingWindow(mContext: Context) : View.OnTouchListener, View.OnClickListener {
 
     // touch
     private var lastAction: Int = 0

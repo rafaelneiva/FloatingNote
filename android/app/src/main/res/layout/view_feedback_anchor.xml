@@ -8,11 +8,12 @@
 
     <ImageButton
         android:id="@+id/btFeedback"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="#ff0"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
         android:padding="8dp"
-        android:src="@android:drawable/ic_media_play"
+        android:background="@drawable/bg_round"
+        android:src="@drawable/ic_edit"
         tools:ignore="ContentDescription" />
 
 </layout>

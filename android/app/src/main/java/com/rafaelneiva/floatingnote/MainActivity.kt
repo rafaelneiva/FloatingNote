@@ -44,11 +44,12 @@ class MainActivity : AppCompatActivity() {
             if (Settings.canDrawOverlays(this)) {
                 // Bind to LocalService
                 val intent = Intent(this@MainActivity, FeedbackService::class.java)
-                bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
+//                bindService(intent, mConnection, Context.BIND_AUTO_CREATE) // bind service attaches the service to the activity, making the service exists only when activity is running and showing
+                startService(intent)
             } else {
                 Toast.makeText(
                     this,
-                    "Please, permit White Label drawing over other apps.",
+                    "Please, permit Floating Note appears over other apps.",
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                     e.printStackTrace()
                     Toast.makeText(
                         this,
-                        "Your Android does not support Feedback feature. It will be disabled.",
+                        "Your Android does not support Floating Note. It will be disabled.",
                         Toast.LENGTH_LONG
                     ).show()
                 }
