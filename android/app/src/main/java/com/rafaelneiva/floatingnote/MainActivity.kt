@@ -10,11 +10,11 @@ import android.os.IBinder
 import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.rafaelneiva.floatingnote.floatingview.FeedbackService
+import com.rafaelneiva.floatingnote.floatingview.FloatingNoteService
 
 class MainActivity : AppCompatActivity() {
 
-    internal lateinit var mService: FeedbackService
+    internal lateinit var mService: FloatingNoteService
     internal var mBound = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             // We've bound to LocalService, cast the IBinder and get LocalService instance
-            val binder = service as FeedbackService.LocalBinder
+            val binder = service as FloatingNoteService.LocalBinder
             mService = binder.service
             mBound = true
         }
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (Settings.canDrawOverlays(this)) {
                 // Bind to LocalService
-                val intent = Intent(this@MainActivity, FeedbackService::class.java)
+                val intent = Intent(this@MainActivity, FloatingNoteService::class.java)
 //                bindService(intent, mConnection, Context.BIND_AUTO_CREATE) // bind service attaches the service to the activity, making the service exists only when activity is running and showing
                 startService(intent)
             } else {
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             try {
-                val intent = Intent(this@MainActivity, FeedbackService::class.java)
+                val intent = Intent(this@MainActivity, FloatingNoteService::class.java)
                 bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
             } catch (e: Exception) {
                 e.printStackTrace()

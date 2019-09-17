@@ -5,13 +5,12 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Binder
 import android.os.IBinder
-import android.view.View
 
 /**
  * Created by rafaelneiva on 06/03/18.
  */
 
-class FeedbackService : Service() {
+class FloatingNoteService : Service() {
 
     private val mBinder = LocalBinder()
 
@@ -22,8 +21,8 @@ class FeedbackService : Service() {
     }
 
     inner class LocalBinder : Binder() {
-        val service: FeedbackService
-            get() = this@FeedbackService
+        val service: FloatingNoteService
+            get() = this@FloatingNoteService
     }
 
     override fun onCreate() {
@@ -31,10 +30,6 @@ class FeedbackService : Service() {
 
         mWindow = FloatingWindow(this)
         mWindow!!.show()
-    }
-
-    fun sendScreenshot(viewRoot: View) {
-        mWindow!!.sendScreenshot(viewRoot)
     }
 
     override fun onDestroy() {

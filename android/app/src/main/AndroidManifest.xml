@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <service android:name=".floatingview.FeedbackService" />
+        <service android:name=".floatingview.FloatingNoteService" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -23,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".floatingview.NoteActivity" />
 
     </application>
 

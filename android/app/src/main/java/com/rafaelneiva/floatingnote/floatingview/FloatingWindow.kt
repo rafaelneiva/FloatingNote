@@ -4,6 +4,7 @@ import android.animation.*
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.PixelFormat
 import android.graphics.Point
@@ -18,12 +19,13 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import kotlin.math.abs
 
 /**
  * Created by rafaelneiva on 08/03/18.
  */
 
-class FloatingWindow(mContext: Context) : View.OnTouchListener, View.OnClickListener {
+class FloatingWindow(val mContext: Context) : View.OnTouchListener, View.OnClickListener {
 
     // touch
     private var lastAction: Int = 0
@@ -34,7 +36,7 @@ class FloatingWindow(mContext: Context) : View.OnTouchListener, View.OnClickList
 
     private val mWindowManager: WindowManager?
     private val mParams: WindowManager.LayoutParams
-    private val mAnchor: FeedbackAnchor
+    private val mAnchor: FloatingAnchor
 
     private val mDisplaySize = Point()
 
@@ -42,8 +44,7 @@ class FloatingWindow(mContext: Context) : View.OnTouchListener, View.OnClickList
     // True if the window is clinging to the left side of the screen; false
     // if the window is clinging to the right side of the screen.
     private var mIsOnLeft: Boolean = false
-    private var mScreenRoot: View? = null
-    internal var arrastadinha = false // verify is user moves the anchor
+    private var arrastadinha = false // verify if user moves the anchor
 
     init {
         mWindowManager = mContext.getSystemService(WINDOW_SERVICE) as WindowManager
@@ -54,7 +55,7 @@ class FloatingWindow(mContext: Context) : View.OnTouchListener, View.OnClickList
             WindowManager.LayoutParams.WRAP_CONTENT
         )
 
-        mAnchor = FeedbackAnchor(mContext)
+        mAnchor = FloatingAnchor(mContext)
 
         enableTouch()
 
@@ -102,12 +103,12 @@ class FloatingWindow(mContext: Context) : View.OnTouchListener, View.OnClickList
                 val windowWidth = mAnchor.width
                 val oldX = mParams.x
 
-                if (oldX + windowWidth / 2 < screenWidth / 2) {
+                mIsOnLeft = if (oldX + windowWidth / 2 < screenWidth / 2) {
                     snap(oldX, 0)
-                    mIsOnLeft = true
+                    true
                 } else {
                     snap(oldX, screenWidth - windowWidth)
-                    mIsOnLeft = false
+                    false
                 }
 
                 makeDiscreet()
@@ -121,7 +122,7 @@ class FloatingWindow(mContext: Context) : View.OnTouchListener, View.OnClickList
                 val newY = initialY + (event.rawY - initialTouchY).toInt()
 
                 arrastadinha =
-                    Math.abs(event.rawX - initialTouchX) > mAnchor.width / 4 || Math.abs(event.rawY - initialTouchY) > mAnchor.height / 4
+                    abs(event.rawX - initialTouchX) > mAnchor.width / 4 || abs(event.rawY - initialTouchY) > mAnchor.height / 4
 
                 updateWindowPosition(newX, newY)
 
@@ -133,7 +134,14 @@ class FloatingWindow(mContext: Context) : View.OnTouchListener, View.OnClickList
     }
 
     override fun onClick(v: View) {
-        // todo
+
+        val intent = Intent(mContext, NoteActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+        disableTouch()
+
+        intent.putExtra(KEY_RECEIVER, MessageReceiver())
+        mContext.startActivity(intent)
     }
 
     fun show() {
@@ -194,7 +202,7 @@ class FloatingWindow(mContext: Context) : View.OnTouchListener, View.OnClickList
 
     private fun makeNormal() {
         val set = AnimatorSet()
-        set.duration = 400
+        set.duration = 200
 
         val alpha = ObjectAnimator.ofFloat<View>(mAnchor, View.ALPHA, 0.25f, 1f)
         val scaleX = ObjectAnimator.ofFloat<View>(mAnchor, View.SCALE_X, 0.75f, 1f)
@@ -204,13 +212,9 @@ class FloatingWindow(mContext: Context) : View.OnTouchListener, View.OnClickList
         set.start()
     }
 
-    fun sendScreenshot(viewRoot: View) {
-        mScreenRoot = viewRoot
-    }
-
     fun disableTouch() {
-        mAnchor.setClickListener(null)
-        mAnchor.setTouchListener(null)
+//        mAnchor.setClickListener(null)
+//        mAnchor.setTouchListener(null)
     }
 
     fun enableTouch() {

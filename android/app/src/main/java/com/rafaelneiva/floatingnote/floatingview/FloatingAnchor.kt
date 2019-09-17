@@ -3,19 +3,18 @@ package com.rafaelneiva.floatingnote.floatingview
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import com.rafaelneiva.floatingnote.R
-import com.rafaelneiva.floatingnote.databinding.ViewFeedbackAnchorBinding
+import com.rafaelneiva.floatingnote.databinding.ViewFloatingAnchorBinding
 
 /**
  * Created by rafaelneiva on 06/03/18.
  */
 
-class FeedbackAnchor : FrameLayout {
+class FloatingAnchor : FrameLayout {
 
-    private lateinit var bind: ViewFeedbackAnchorBinding
+    private lateinit var bind: ViewFloatingAnchorBinding
 
     constructor(context: Context) : super(context) {
         init()
@@ -28,22 +27,18 @@ class FeedbackAnchor : FrameLayout {
     private fun init() {
         bind = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            R.layout.view_feedback_anchor,
-            this@FeedbackAnchor,
+            R.layout.view_floating_anchor,
+            this@FloatingAnchor,
             true
         );
     }
 
     fun setClickListener(clickListener: OnClickListener?) {
-        bind.btFeedback.setOnClickListener(clickListener);
+        bind.btNewNote.setOnClickListener(clickListener);
     }
 
     fun setTouchListener(touchListener: OnTouchListener?) {
-        bind.btFeedback.setOnTouchListener(touchListener);
-    }
-
-    override fun performClick(): Boolean {
-        return super.performClick()
+        bind.btNewNote.setOnTouchListener(touchListener);
     }
 
 }
